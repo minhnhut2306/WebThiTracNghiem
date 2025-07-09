@@ -54,8 +54,8 @@ public class ExamServiceImpl implements IExamService {
     }
 
     @Override
-    public void save(Exam exam) {
-        examRepository.save(exam);
+    public Exam save(Exam exam) {
+        return examRepository.save(exam);
     }
 
     @Override

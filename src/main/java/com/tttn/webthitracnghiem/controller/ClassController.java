@@ -13,46 +13,49 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
-@Controller
-@RequestMapping("/class")
+@RestController
+@RequestMapping("/api/class")
 public class ClassController {
     @Autowired
     private IClassesService classesService;
+
     @GetMapping("/list")
-    public String index(Model model, @PageableDefault(value = 10) Pageable pageable){
-        Page<Classes> classes;
-        classes = classesService.findAll(pageable);
-        model.addAttribute("classes",classes);
-        return "class/list";
+    public Page<Classes> getClassList(@PageableDefault(value = 10) Pageable pageable) {
+        return classesService.findAll(pageable);
     }
+
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable String id, Model model){
+    public String edit(@PathVariable String id, Model model) {
         Classes classes = classesService.findById(Integer.parseInt(id));
-        model.addAttribute("class",classes);
+        model.addAttribute("class", classes);
         return "class/edit";
     }
+
     @GetMapping("/create")
-    public String create(Model model){
-        model.addAttribute("class",new Classes());
+    public String create(Model model) {
+        model.addAttribute("class", new Classes());
         return "class/add";
     }
+
     @PostMapping("/create")
-    public String save(@ModelAttribute Classes classes, RedirectAttributes ra){
+    public String save(@ModelAttribute Classes classes, RedirectAttributes ra) {
         classesService.save(classes);
-        ra.addFlashAttribute("message","Thêm lớp học thành công!");
+        ra.addFlashAttribute("message", "Thêm lớp học thành công!");
         return "redirect:/class/list";
     }
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable String id,RedirectAttributes ra){
+    public String delete(@PathVariable String id, RedirectAttributes ra) {
         Classes classes = classesService.findById(Integer.parseInt(id));
         classesService.remove(classes);
-        ra.addFlashAttribute("message","Xóa lớp học thành công!");
+        ra.addFlashAttribute("message", "Xóa lớp học thành công!");
         return "redirect:/class/list";
     }
+
     @PostMapping("/update")
-    public String update(@ModelAttribute Classes classes, RedirectAttributes ra){
+    public String update(@ModelAttribute Classes classes, RedirectAttributes ra) {
         classesService.save(classes);
-        ra.addFlashAttribute("message","Cập nhập lớp học thành công!");
+        ra.addFlashAttribute("message", "Cập nhập lớp học thành công!");
         return "redirect:/class/list";
     }
 }

@@ -1,6 +1,8 @@
 package com.tttn.webthitracnghiem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -18,13 +20,12 @@ public class Result {
     private Timestamp endTime;
 
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "username",referencedColumnName = "id" )
+    @JoinColumn(name = "username", referencedColumnName = "id")
     @JsonBackReference
     private User users;
 
-
     @ManyToOne(targetEntity = Exam.class)
-    @JoinColumn(name = "id_exam",referencedColumnName = "id")
+    @JoinColumn(name = "id_exam", referencedColumnName = "id")
     @JsonBackReference
     private Exam exam;
 
@@ -86,5 +87,16 @@ public class Result {
 
     public void setMark(double mark) {
         this.mark = mark;
+    }
+
+    // Thêm vào class Result
+    @JsonProperty("userId")
+    public String getUserId() {
+        return users != null ? users.getId() : null;
+    }
+
+    @JsonProperty("examId")
+    public Integer getExamId() {
+        return exam != null ? exam.getId() : null;
     }
 }

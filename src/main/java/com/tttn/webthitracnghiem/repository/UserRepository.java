@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +34,6 @@ public interface  UserRepository  extends JpaRepository<User,String > {
     @Query(nativeQuery = true,value = "SELECT * FROM user JOIN user_role ON user.id = user_role.username ")
     List<User> getMember();
     Optional<User> findById(int id);
+    @Query("SELECT u FROM User u WHERE u.createDate = :today")
+    List<User> findUsersCreatedToday(@Param("today") Date today);
 }

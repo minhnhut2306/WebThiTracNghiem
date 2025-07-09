@@ -1,6 +1,7 @@
 package com.tttn.webthitracnghiem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 
@@ -9,6 +10,7 @@ import javax.print.Doc;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -20,12 +22,12 @@ public class User {
     @NotBlank(message = "Tài khoản không được để trống.")
     private String id;
 
-    @Length(min = 6,message = "Mật khẩu không được ít hơn 6 kí tự.")
+    @Length(min = 6, message = "Mật khẩu không được ít hơn 6 kí tự.")
     @NotBlank(message = "Mật khẩu không được để trống.")
     private String passWord;
 
-    @Length(min = 6,message = "Mật khẩu không được ít hơn 6 kí tự.")
-    @NotBlank(message = "Mật khẩu không được để trống.")
+    @Transient
+    @Length(min = 6, message = "Mật khẩu không được ít hơn 6 kí tự.")
     private String rePassWord;
 
     @NotBlank(message = "Tên không được để trống.")
@@ -47,9 +49,17 @@ public class User {
     @Column(name = "create_date")
     private Date createDate;
 
+    @OneToMany(mappedBy = "users") // Quan hệ OneToMany với Result
+    @JsonIgnore
+    private Set<Result> results;
+
+    @JsonIgnore
+    public Set<Result> getResults() {
+        return results;
+    }
+
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "username", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "username", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @JsonBackReference
     private Set<Role> roles;
 
@@ -69,13 +79,12 @@ public class User {
     @JsonManagedReference
     private Set<News> news;
 
-
     public User() {
     }
 
     public User(String id, String passWord, String rePassWord, String fullName, String email, String address,
-                String phoneNumber, String img, Date createDate, Set<Role> roles, List<Exam> exams,
-                Set<Document> documents, Result result, Set<News> news) {
+            String phoneNumber, String img, Date createDate, Set<Role> roles, List<Exam> exams,
+            Set<Document> documents, Result result, Set<News> news) {
         this.id = id;
         this.passWord = passWord;
         this.rePassWord = rePassWord;
@@ -211,4 +220,7 @@ public class User {
     public void setNews(Set<News> news) {
         this.news = news;
     }
+
+    private LocalDateTime createdAt;
+
 }

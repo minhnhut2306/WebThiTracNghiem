@@ -42,7 +42,7 @@ public class MemberController {
         model.addAttribute("user", new User());
         return "register";
     }
-
+    
     @PostMapping("/signup")
     public String signUp(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
         if (userService.userExists(user.getId())) {

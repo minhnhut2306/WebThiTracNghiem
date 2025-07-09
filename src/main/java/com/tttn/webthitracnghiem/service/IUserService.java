@@ -10,7 +10,7 @@ import java.util.List;
 public interface IUserService {
     Page<User> findAll(Pageable pageable);
     Page<User> search(String name, Pageable pageable);
-    User save(User user);
+     User save(User user);
     Iterable<User> findAll();
     User findById(String id);
     void delete(User user);
@@ -22,4 +22,5 @@ public interface IUserService {
     List<User> getNewMember();
     int getTotalMember();
     User save(UserRequest userRequest);
+      List<User> findUsersCreatedToday();
 }

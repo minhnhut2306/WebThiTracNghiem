@@ -23,7 +23,7 @@ import javax.print.event.PrintJobEvent;
 import java.io.*;
 import java.util.*;
 
-@Controller
+@RestController
 @RequestMapping("/chapter")
 public class ChapterController {
     @Autowired

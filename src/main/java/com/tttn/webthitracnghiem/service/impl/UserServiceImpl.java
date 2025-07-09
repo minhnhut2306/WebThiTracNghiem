@@ -123,5 +123,11 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    @Override
+    public List<User> findUsersCreatedToday() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findUsersCreatedToday'");
+    }
+
 }
 

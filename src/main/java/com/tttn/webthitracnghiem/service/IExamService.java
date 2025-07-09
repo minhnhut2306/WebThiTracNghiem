@@ -17,7 +17,7 @@ public interface IExamService {
 
     Exam findById(Integer id);
 
-    void save(Exam exam);
+    Exam save(Exam exam);
 
     void delete(Exam exam);
 

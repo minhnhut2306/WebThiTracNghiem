@@ -28,7 +28,9 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public Page<News> findAll(Pageable pageable) {
-        return newsRepository.findAll(pageable);
+        Page<News> newsPage = newsRepository.findAll(pageable);
+        System.out.println("Total news: " + newsPage.getTotalElements());
+        return newsPage;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class NewsServiceImpl implements INewsService {
         }
         String realUrl = new File(".").getAbsolutePath();
         if (newsRequest.getImage() != null) {
-            if(!oldUrl.equals("/img/default-news.png")) {
+            if (!oldUrl.equals("/img/default-news.png")) {
                 // Xóa file cũ
                 File file = new File(realUrl + "\\src\\main\\resources\\static\\img\\"
                         + oldUrl.substring(oldUrl.lastIndexOf("/") + 1));
@@ -89,7 +91,10 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public List<News> findAll() {
-        return newsRepository.findAll();
+        System.out.println("Calling findAll()");
+        List<News> newsList = newsRepository.findAll();
+        System.out.println("News found: " + newsList.size());
+        return newsList;
     }
 
     @Override
